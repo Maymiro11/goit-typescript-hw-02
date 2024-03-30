@@ -17,6 +17,7 @@
 }
 .input{
     border-radius: 8px;
+    padding: 8px;
 }
 .input:focus{
     border-color: cadetblue;
