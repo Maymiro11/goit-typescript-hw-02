@@ -7,6 +7,7 @@ axios.defaults.headers.common["Authorization"] = `Client-ID ${accessKey}`;
 axios.defaults.headers.common["Accept-Version"] = `v1`;
 
 async function fetchImages(searchingText, page = 1) {
+    
     const response = await axios.get("/search/photos", {
         params: {
         query: searchingText,
@@ -16,7 +17,9 @@ async function fetchImages(searchingText, page = 1) {
         orientation: "landscape",
         },
     });
+    console.log(response);
     return response.data;
+    
     }
 
 export default fetchImages;

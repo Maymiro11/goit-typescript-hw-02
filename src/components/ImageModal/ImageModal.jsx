@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import css from "./ImageModal.module.css";
 
 function ImageModal({
-  chosenImage: { url, alt, name, location, portfolio },
+  chosenImage: { url, alt, name, location, portfolio }, 
   onBackDrop,
   isOpen,
 }) {
@@ -40,15 +40,15 @@ function ImageModal({
       }}
       contentElement={
         (props, children) => <div {...props}>{children}</div>
-        /* Custom Content element. */
       }
     >
+
       <div className={css.container}>
         <img src={url} alt={alt} />
         <p className={css.text}>
           {name}
           {location ? ` from ${location}` : ` from lovely Earth planet`} --&gt;
-          More cool photos
+          More photos
           <a
             className={css.link}
             href={portfolio}
@@ -58,6 +58,8 @@ function ImageModal({
             &nbsp;here
           </a>
         </p>
+        
+
       </div>
     </Modal>
   );
