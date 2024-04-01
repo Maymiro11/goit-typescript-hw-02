@@ -19,13 +19,6 @@ function App() {
   const [searchingText, setSearchingText] = useState("");
   const [isScroll, setIsScroll] = useState(false);
 
-  window.onscroll = function scrollSetting() {
-    if (window.scrollY > 20) {
-      setIsScroll(true);
-    } else {
-      setIsScroll(false);
-    }
-  };
 
   useEffect(() => {
     async function galleryBuilding(searchingText, page) {
@@ -89,7 +82,12 @@ function App() {
   function handleLoad() {
     setPage(page + 1);
   }
-
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
   return (
     <>
       <SearchBar onSearch={handleSearch} />
@@ -112,6 +110,7 @@ function App() {
           galleryArray={gallery}
           isScroll={isScroll}
           onView={backDropSetting}
+          scrollToTop={scrollToTop}
         />
       )}
       {modalImage && (
