@@ -1,27 +1,23 @@
 import './App.css';
-import SearchForm from './SearchForm/SearchForm';
+import SearchBar from './SearchBar/SearchBar';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import ImageGallery from './ImageGallery/ImageGallery';
 import ImageModal from './ImageModal/ImageModal';
 import Loader from './Loader/Loader';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
-
 import fetchImages from './Api';
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 function App() {
-
   const [gallery, setGallery] = useState([]);
-  const [isloading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [modalImage, setModalImage] = useState(null);
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [page, setPage] = useState(1);
   const [searchingText, setSearchingText] = useState("");
   const [isScroll, setIsScroll] = useState(false);
-
-  const galleryRef = useRef();
 
   window.onscroll = function scrollSetting() {
     if (window.scrollY > 20) {
@@ -63,21 +59,21 @@ function App() {
     galleryBuilding(searchingText, page);
   }, [searchingText, page]);
 
-  //  ================= Скрол вниз на три картки при оновленні галереї ===
-
   useEffect(() => {
-    if (galleryRef.current.children.length > 0 && page > 1) {
-      const galleryElementHeight =
-        galleryRef.current.lastChild.getBoundingClientRect().height * 3 + 45;
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
 
-      window.scrollBy({
-        top: galleryElementHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [gallery, page]);
-
-  // ============= Фуннкції оновлення станів ===================
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   function backDropSetting(modalImageObj) {
     setModalImage(modalImageObj);
@@ -96,7 +92,7 @@ function App() {
 
   return (
     <>
-      <SearchForm onSearch={handleSearch} />
+      <SearchBar onSearch={handleSearch} />
       <Toaster
         position="top-right"
         toastOptions={{
@@ -113,7 +109,6 @@ function App() {
         <ErrorMessage errorObj={error} />
       ) : (
         <ImageGallery
-          ref={galleryRef}
           galleryArray={gallery}
           isScroll={isScroll}
           onView={backDropSetting}
@@ -126,8 +121,8 @@ function App() {
           onBackDrop={backDropSetting}
         />
       )}
-      {isloading && <Loader />}
-      {isLoadMore && !isloading && <LoadMoreBtn onLoad={handleLoad} />}
+      {isLoading && <Loader />}
+      {isLoadMore && !isLoading && <LoadMoreBtn onLoad={handleLoad} />}
     </>
   );
 }

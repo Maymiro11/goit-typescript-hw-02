@@ -1,4 +1,4 @@
-import css from './SearchForm.module.css';
+import css from './SearchBar.module.css';
 import { useId } from "react";
 import toast from "react-hot-toast";
 import { FaExclamationCircle } from "react-icons/fa";
