@@ -1,11 +1,22 @@
+import React from "react";
 import Modal from "react-modal";
 import css from "./ImageModal.module.css";
 
-function ImageModal({
-  chosenImage: { url, alt, name, location, portfolio }, 
-  onBackDrop,
-  isOpen,
-}) {
+interface ImageModalProps {
+  chosenImage: {
+    url: string;
+    alt: string;
+    name: string;
+    location?: string;
+    portfolio: string;
+  };
+  isOpen: boolean;
+  onBackDrop: (image: null) => void;
+}
+
+const ImageModal: React.FC<ImageModalProps> = (props) => {
+  const { chosenImage, isOpen, onBackDrop } = props;
+  const { url, alt, name, location, portfolio } = chosenImage;
   Modal.setAppElement("#root");
   return (
     <Modal
@@ -38,31 +49,21 @@ function ImageModal({
           inset: 0,
         },
       }}
-      contentElement={
-        (props, children) => <div {...props}>{children}</div>
-      }
+      contentElement={(props, children) => <div {...props}>{children}</div>}
     >
-
       <div className={css.container}>
         <img src={url} alt={alt} />
         <p className={css.text}>
           {name}
           {location ? ` from ${location}` : ` from lovely Earth planet`} --&gt;
           More photos
-          <a
-            className={css.link}
-            href={portfolio}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a className={css.link} href={portfolio} target="_blank" rel="noreferrer">
             &nbsp;here
           </a>
         </p>
-        
-
       </div>
     </Modal>
   );
-}
+};
 
 export default ImageModal;

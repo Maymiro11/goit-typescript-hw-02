@@ -1,12 +1,40 @@
+import React from "react";
 import { BiSolidChevronsUp } from "react-icons/bi";
 import css from "./ImageGallery.module.css";
 import ImageCard from "../ImageCard/ImageCard";
 
-const ImageGallery = ({ galleryArray, isScroll, onView }) => {
+interface ImageData {
+  id: string;
+  alt_description: string;
+  likes: number;
+  user: {
+    name: string;
+    location: string;
+    links: {
+      html: string;
+    };
+  };
+  urls: {
+    small: string;
+    regular: string;
+  };
+}
+
+interface ImageGalleryProps {
+  galleryArray: ImageData[];
+  isScroll: boolean;
+  onView: (imageData: ImageData) => void;
+}
+
+const ImageGallery: React.FC<ImageGalleryProps> = ({
+  galleryArray,
+  isScroll,
+  onView,
+}) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
@@ -30,4 +58,4 @@ const ImageGallery = ({ galleryArray, isScroll, onView }) => {
   );
 };
 
-export default ImageGallery;
+export default ImageGallery; 

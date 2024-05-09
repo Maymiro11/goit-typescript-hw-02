@@ -1,32 +1,32 @@
+import React, { useState, useEffect } from "react";
 import './App.css';
-import SearchBar from './SearchBar/SearchBar';
-import ErrorMessage from './ErrorMessage/ErrorMessage';
-import ImageGallery from './ImageGallery/ImageGallery';
-import ImageModal from './ImageModal/ImageModal';
-import Loader from './Loader/Loader';
-import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
-import fetchImages from './Api';
-import { useState, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import SearchBar from '../SearchBar/SearchBar';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ImageGallery from '../ImageGallery/ImageGallery';
+import ImageModal from '../ImageModal/ImageModal';
+import Loader from '../Loader/Loader';
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
+import fetchImages from '../Api';
+import { Toaster } from "react-hot-toast";
+import { Image, ModalImage, ResponseData } from './App.types';
 
-function App() {
-  const [gallery, setGallery] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [modalImage, setModalImage] = useState(null);
-  const [isLoadMore, setIsLoadMore] = useState(false);
-  const [page, setPage] = useState(1);
-  const [searchingText, setSearchingText] = useState("");
-  const [isScroll, setIsScroll] = useState(false);
-
+const App: React.FC = () => {
+  const [gallery, setGallery] = useState<Image[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [modalImage, setModalImage] = useState<ModalImage | null>(null);
+  const [isLoadMore, setIsLoadMore] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [searchingText, setSearchingText] = useState<string>("");
+  const [isScroll, setIsScroll] = useState<boolean>(false);
 
   useEffect(() => {
-    async function galleryBuilding(searchingText, page) {
+    async function galleryBuilding(searchingText: string, page: number) {
       try {
         if (searchingText.length === 0) return;
         setError(null);
         setIsLoading(true);
-        const resp = await fetchImages(searchingText, page);
+        const resp: ResponseData = await fetchImages(searchingText, page);
         if (resp.results.length === 0) {
           throw new Error("Nothing found!");
         }
@@ -68,11 +68,11 @@ function App() {
     };
   }, []);
 
-  function backDropSetting(modalImageObj) {
+  function backDropSetting(modalImageObj: ModalImage | null) {
     setModalImage(modalImageObj);
   }
 
-  function handleSearch(searchingText) {
+  function handleSearch(searchingText: string) {
     setGallery([]);
     setIsLoadMore(false);
     setSearchingText(searchingText);
@@ -82,12 +82,14 @@ function App() {
   function handleLoad() {
     setPage(page + 1);
   }
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
   };
+
   return (
     <>
       <SearchBar onSearch={handleSearch} />
@@ -110,7 +112,6 @@ function App() {
           galleryArray={gallery}
           isScroll={isScroll}
           onView={backDropSetting}
-          scrollToTop={scrollToTop}
         />
       )}
       {modalImage && (
@@ -124,6 +125,6 @@ function App() {
       {isLoadMore && !isLoading && <LoadMoreBtn onLoad={handleLoad} />}
     </>
   );
-}
+};
 
 export default App;
