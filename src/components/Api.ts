@@ -8,7 +8,7 @@ axios.defaults.headers.common['Accept-Version'] = 'v1';
 
 interface ImageData {
   id: string;
-  alt_description: string;
+  alt_description?: string; 
   likes: number;
   user: {
     name: string;
@@ -29,16 +29,20 @@ interface ResponseData {
 }
 
 async function fetchImages(searchingText: string, page = 1): Promise<ResponseData> {
-  const response: AxiosResponse<ResponseData> = await axios.get('/search/photos', {
-    params: {
-      query: searchingText,
-      per_page: 9,
-      page,
-      order_by: 'popular',
-      orientation: 'landscape',
-    },
-  });
-  return response.data;
+  try {
+    const response: AxiosResponse<ResponseData> = await axios.get('/search/photos', {
+      params: {
+        query: searchingText,
+        per_page: 9,
+        page,
+        order_by: 'popular',
+        orientation: 'landscape',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch images."); 
+  }
 }
 
 export default fetchImages;

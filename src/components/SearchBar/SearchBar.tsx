@@ -13,9 +13,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (!inputRef.current) return;
-    
+  
     const searchingText = inputRef.current.value.toLowerCase();
-    if (searchingText.trim().length === 0) {
+    if (!searchingText.trim()) { 
       toast('Oh, no! You didn\'t type any letter!', {
         icon: <FaExclamationCircle size="24" />,
       });

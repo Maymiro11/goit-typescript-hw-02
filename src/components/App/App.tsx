@@ -8,17 +8,18 @@ import Loader from '../Loader/Loader';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import fetchImages from '../Api';
 import { Toaster } from "react-hot-toast";
-import { Image, ModalImage, ResponseData } from './App.types';
+import { ImageType, ModalImage, ResponseData } from './App.types';
+import toast from "react-hot-toast";
 
-const App: React.FC = () => {
-  const [gallery, setGallery] = useState<Image[]>([]);
+function App() {
+  const [gallery, setGallery] = useState<ImageType[]>([]); 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [modalImage, setModalImage] = useState<ModalImage | null>(null);
   const [isLoadMore, setIsLoadMore] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [searchingText, setSearchingText] = useState<string>("");
-  const [isScroll, setIsScroll] = useState<boolean>(false);
+  const [isScroll, setIsScroll] = useState<boolean>(false); 
 
   useEffect(() => {
     async function galleryBuilding(searchingText: string, page: number) {
@@ -41,10 +42,14 @@ const App: React.FC = () => {
           setIsLoadMore(false);
         }
       } catch (error) {
-        setError(error);
-        setIsLoadMore(false);
-        console.log(error);
-        toast.error(`Oooops! ${error.message}!`);
+        if (error instanceof Error) {
+          setError(error);
+          setIsLoadMore(false);
+          console.log(error);
+          toast.error(`Oooops! ${error.message}!`);
+        } else {
+          console.error(error);
+        }
       } finally {
         setIsLoading(false);
       }
