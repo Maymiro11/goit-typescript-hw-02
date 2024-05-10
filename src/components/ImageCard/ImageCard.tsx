@@ -49,7 +49,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, onView }) => {
       <img
         className={css.img}
         src={image.urls.small}
-        alt={image.alt_description}
+        alt={image.alt_description || "No description available"}
         data-url={image.urls.regular}
         data-likes={image.likes.toString()}
         data-author={image.user.name}

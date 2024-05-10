@@ -1,6 +1,6 @@
-export type Image = {
+export type ImageType = {
     id: string;
-    webformatURL: string;
+    webformatURL?: string;
   }
   
   export type ModalImage = {
@@ -9,7 +9,7 @@ export type Image = {
   }
   
   export type ResponseData = {
-    results: Image[];
+    results: ImageType[];
     total: number;
   }
   
