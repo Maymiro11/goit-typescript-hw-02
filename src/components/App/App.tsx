@@ -8,10 +8,10 @@ import Loader from '../Loader/Loader';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import fetchImages from '../Api';
 import { Toaster } from "react-hot-toast";
-import { ImageType, ModalImage, ResponseData } from './App.types'; // Виправлено імпорт
+import { ImageType, ModalImage, ResponseData } from './App.types';
 import toast from "react-hot-toast";
 
-const App: React.FC = () => {
+function App() {
   const [gallery, setGallery] = useState<ImageType[]>([]); 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -48,7 +48,7 @@ const App: React.FC = () => {
           console.log(error);
           toast.error(`Oooops! ${error.message}!`);
         } else {
-          console.error(error); // Додано обробку некоректного типу помилки
+          console.error(error);
         }
       } finally {
         setIsLoading(false);
