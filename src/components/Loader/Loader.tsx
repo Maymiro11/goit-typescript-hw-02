@@ -5,12 +5,12 @@ const Loader: React.FC = () => {
   return (
     <RotatingLines
       visible={true}
-      height={96}
+      //height={96}
       width={'96'}
       strokeColor="cadetblue"
       ariaLabel="rotating-lines-loading"
-      wrapperStyle={{}}
-      wrapperClass=""
+      //wrapperStyle={{}}
+      //wrapperClass=""
     />
   );
 }
